@@ -1,0 +1,30 @@
+class Solution:
+    def lastStoneWeight(self, stones: List[int]) -> int:
+        
+        while (len(stones) >= 0):
+            stones.sort(reverse = True)
+            if len(stones) == 1:
+                return stones[0]
+            elif len(stones) == 0:
+                return 0
+            if stones[0] == stones[1]:
+                stones.pop(0)
+                stones.pop(0)           
+            elif stones[0] > stones[1]:
+                stones[0] -= stones[1]
+                stones.pop(1)
+            else:
+                stones[1] -= stones[0]
+                stones.pop(0)
+        
+        # Max Heap implementation
+        # new_list = [-x for x in stones]
+        # heapq.heapify(new_list)
+        # while len(new_list) > 1:
+        #     y = heapq.heappop(new_list)
+        #     x = heapq.heappop(new_list)
+        #     if y != x:
+        #         heapq.heappush(new_list, y-x)
+        # if len(new_list):
+        #     return -heapq.heappop(new_list)
+        # return 0

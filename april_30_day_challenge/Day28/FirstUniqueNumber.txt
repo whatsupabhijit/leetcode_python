@@ -1,0 +1,48 @@
+class FirstUnique:
+
+    # First tried with List and Dictionary. 
+    # But deleting an element from dictionary is worst case O(N) so solution becomes O(N^2)
+    # So its giving TLE
+    
+    # So better to use deque and counter
+    
+    
+    def __init__(self, nums: List[int]):
+        # self.queue = nums
+        # self.cache = {}
+        self.queue = deque(nums)
+        self.occur = Counter(nums)
+
+    def showFirstUnique(self) -> int:
+        # Below is working solution 
+        # self.cache = {}
+        # N = len(self.queue)
+        # for i, num in enumerate(self.queue):
+        #     if num in self.cache:
+        #         del self.cache[num]
+        #     else:
+        #         self.cache[num] = i
+        # ans_index, ans, found = float("inf"), float("inf"), False
+        # for i, num in enumerate(self.queue):
+        #     if num in self.cache:
+        #         if ans_index > self.cache[num]:
+        #             ans_index = self.cache[num]
+        #             ans = num
+        #             found = True
+        # return ans if found else -1
+        while (self.queue and self.occur[self.queue[0]] >= 2):
+            self.queue.popleft()
+        return -1 if not self.queue else self.queue[0]
+        
+            
+    def add(self, value: int) -> None:
+        # add() for working solution
+        # self.queue.append(value)
+        self.queue.append(value)
+        self.occur[value] += 1
+        
+
+# Your FirstUnique object will be instantiated and called as such:
+# obj = FirstUnique(nums)
+# param_1 = obj.showFirstUnique()
+# obj.add(value)

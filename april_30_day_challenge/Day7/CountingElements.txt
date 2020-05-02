@@ -1,0 +1,12 @@
+class Solution:
+    def countElements(self, arr: List[int]) -> int:
+        seen  = set()
+        for item in arr:
+            seen.add(item) 
+        
+        count = 0
+        for item in arr:
+            if (item + 1) in seen:
+                count += 1
+                
+        return count

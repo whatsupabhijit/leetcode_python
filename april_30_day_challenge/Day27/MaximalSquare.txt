@@ -1,0 +1,44 @@
+class Solution:
+    def maximalSquare(self, grid: List[List[str]]) -> int:
+        
+        if len(grid) == 0:
+            return 0
+        
+        M, N = len(grid), len(grid[0])
+        dp = [[0]* (N + 1) for _ in range(M + 1)]
+        top, left, topleft, result = 0, 0, 0, 0
+        
+        for i in range(1, M + 1):
+            for j in range(1, N + 1):
+                # dp [i][j] = length of square if (i, j) is at bottom corner
+                if grid[i-1][j-1] == "1":
+                    # Top, Left, and Top Left decides the size of the square. 
+                    # If all of this 3 are same, then the size of square increases by 1.
+                    top, left, topleft = dp[i-1][j], dp[i][j-1], dp[i-1][j-1]
+                    dp[i][j] = min(top, left, topleft) + 1
+                    result   = max(dp[i][j], result)
+                
+        return result * result
+                
+                
+# for the example 1, dp becomes as below:-
+# 0 0 0 0 0 0
+# 0 1 0 1 0 0
+# 0 1 0 1 1 1
+# 0 1 1 1 2 2
+# 0 1 0 0 1 0
+
+# if array is like below
+# 1 0 1 0 0
+# 1 0 1 1 1
+# 1 1 1 1 1
+# 1 0 1 1 1
+
+# dp becomes as below:-
+# 0 0 0 0 0 0
+# 0 1 0 1 0 0
+# 0 1 0 1 1 1
+# 0 1 1 1 2 2
+# 0 1 0 1 2 3
+                
+        

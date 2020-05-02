@@ -1,0 +1,44 @@
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        
+        N = len(s)
+        # key here is to use two stacks. for normal parenthesis matching you use one stack.
+        # here one stack will store the positions of the open parentheis
+        # and the second stack will hold the positions of  *
+        
+        open_stack, star_stack = [], []
+        
+        # push to two stacks * and (. Pop from open if matching for )
+        index = 0
+        for ch in s:
+            if ch == "(":
+                open_stack.append([ch, index])
+            elif ch == "*":
+                star_stack.append(index)
+            else:
+                # when found one ")" check if matching "(" is found or "*" is found in star_stack
+                if len(open_stack)!= 0 and open_stack[-1][0] == "(":
+                    open_stack.pop()
+                elif len(star_stack)!= 0:
+                    star_stack.pop()
+                else:
+                    return False
+            index += 1
+                
+        # now check if *s can close the remaining open parenthesis (
+        N = len(open_stack)
+        
+        while (N):
+            # if open_stack is not empty but no more star to match  then return flase
+            if len(open_stack) > 0 and len(star_stack) == 0:
+                return False
+            # if open "("'s  position is left to * then its ok. Otherwise its not valid
+            if open_stack[-1][1] > star_stack[-1]:
+                return False
+            open_stack.pop()
+            star_stack.pop()
+            N -= 1
+            
+        return True
+        
+        

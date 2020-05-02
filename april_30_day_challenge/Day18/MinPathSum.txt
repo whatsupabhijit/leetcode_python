@@ -1,0 +1,49 @@
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        
+        R, C = len(grid), len(grid[0])
+        
+        # since can be moved only in right or down direction, our direction vector will be 2 dim.
+        # dr, dc = [0, +1], [+1, 0]
+        
+    # DFS solution O(RC) time and O(RC) space
+#         @lru_cache(maxsize = None)
+#         def dfs(r, c):
+#             if (r == R - 1 and c == C - 1):
+#                 return grid[r][c]
+#             # go to right if possible
+#             right  = dfs(r, c + 1) if not(c + 1 < 0 or c + 1 >= C) else float("inf") 
+#             # go down if possible
+#             down   = dfs(r + 1, c) if not(r + 1 < 0 or r + 1 >= R) else float("inf")
+#             return  grid[r][c] + min(right, down)
+#         return dfs(0, 0)
+
+    # DP Solution 1: O(RC) Time and space    
+        INF = 1e9+5 
+        dp=[ [0 for _ in range(C) ] for _  in range(R)]
+        for i in range(R):
+            for j in range(C):
+                if i==0 and j ==0:
+                    dp[i][j] = grid[i][j]
+                else:
+                    dp[i][j] = min(INF if i==0 else dp[i-1][j], 
+                                   INF if j==0 else dp[i][j-1]) + grid[i][j]
+        return dp[-1][-1]
+    
+        # Dynamic programming 2 
+        # O(RC) time and O(C) space
+        # if you notice, if you save the last row then it takes one dim
+        # because from 0,0 to 0,1 or 0,2 you can only go by going to right side
+        #  so 0,1 and 0,2 will be just prefix sums.
+        # and same is true column wise i.e. from 0,0 to 1,0, 2,0, you have to just add.
+        # then other rows are just from either left or up.
+        # dp = [path for path in itertools.accumulate(grid[0])]
+        # for i in range(1, R):
+        #     dp[0] += grid[i][0]
+        #     for j in range(1, C):
+        #         # dp[j-1]: the min path to grid(i, j-1)
+        #         # dp[j]: the min path to grid(i-1, j)
+        #         dp[j] = min(dp[j-1], dp[j]) + grid[i][j]
+        #     # print(dp)
+        # return dp[-1]
+        

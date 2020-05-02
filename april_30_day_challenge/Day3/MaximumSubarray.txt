@@ -1,0 +1,10 @@
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        running = 0
+        best = -float("inf")
+        for num in nums:
+            running += num
+            best = max(running, best)
+            running = max(running, 0)
+        
+        return best

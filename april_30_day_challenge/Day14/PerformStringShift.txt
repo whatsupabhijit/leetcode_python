@@ -1,0 +1,42 @@
+class Solution:
+    def stringShift(self, s: str, shift: List[List[int]]) -> str:
+        
+        # left shift -amount, right shift +amount gives total left or right shift.
+        total_shift = 0
+        for (shift, amount) in shift:
+            if shift == 0:
+                total_shift -= amount
+            else:
+                total_shift += amount
+                
+        # so finally shift total_shift times. if negative left shift. if positive right shift
+        print (total_shift)
+        
+        
+        # Intuitive solution 
+        
+        # strlist = list(s)
+        # N = len(strlist)
+        # if total_shift > 0:
+        #     while (total_shift):
+        #         strlist.insert(0, strlist.pop())  # insert O(N), dequeue appendleft() is O(1)
+        #         total_shift -= 1
+        # else:
+        #     while(total_shift < 0):
+        #         strlist = strlist[1:] + [strlist[0]]
+        #         total_shift += 1
+        
+        
+        # but you can use collections.dequeu also and its pop() and poplef()
+        strdeque = collections.deque(s)
+        if total_shift > 0:
+            while (total_shift):
+                strdeque.appendleft(strdeque.pop())
+                total_shift -= 1
+        else:
+            while (total_shift < 0 ):
+                strdeque.append(strdeque.popleft())
+                total_shift += 1
+        
+        return ''.join(list(strdeque))
+                

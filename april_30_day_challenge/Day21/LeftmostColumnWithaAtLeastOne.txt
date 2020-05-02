@@ -1,0 +1,36 @@
+# """
+# This is BinaryMatrix's API interface.
+# You should not implement it, or speculate about its implementation
+# """
+#class BinaryMatrix(object):
+#    def get(self, row: int, col: int) -> int:
+#    def dimensions(self) -> list[]:
+
+class Solution:
+    def leftMostColumnWithOne(self, bm: 'BinaryMatrix') -> int:
+        
+        # M, N = bm.dimensions()
+        # # O(M * LOG(N)) Solution below.
+        # ans = N
+        # for r in range (M):
+        #     # find the column position by binary search where 1 is starting.
+        #     start, end = 0, ans - 1
+        #     while start <= end:
+        #         mid = start + (end - start)//2
+        #         if bm.get(r, mid) == 1:
+        #             ans = min(ans, mid)
+        #             end = mid - 1
+        #         else:
+        #             start = mid + 1
+        # return -1 if ans == N else ans
+    
+        
+        #O(M + N) solution
+        M, N = bm.dimensions()
+        ans = N
+        for r in range (M):
+            while (ans > 0 and bm.get(r, ans - 1) == 1):
+                ans -= 1
+        return -1 if ans == N else ans
+    
+        

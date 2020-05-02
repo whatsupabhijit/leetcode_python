@@ -1,0 +1,90 @@
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        
+        #you can use two pointer (also known as sliding window).
+        # you can start the two pointers at first. move the right point if sum is less than k,
+        # move both when sum is equal to k and move right also deduct left if greater than k.
+        # note that this solutiohn works only if there is all positive numbers in array. 
+        # if there is negative number then this solution won't work
+        # Test cases
+        # [100,1,2,3,4], k = 6      PASS    first element greater than k
+        # [6,1,2,3,4] , k =6        PASS    first element equal to 6
+        # [6,1,2,3,4] , k = 0       PASS    first element equal to 6 but k = 0
+        # [1], k = 0                PASS    only 1 element
+        # [1,2,3], k = 3            PASS    last elemnt is matching with k
+        # [1,2,3,4,5], k = 5        FAIL    last element is matching and inbetween one more matching
+        # [-1,-1,1], k = 0          FAIL 
+        
+        
+        #   WRONG SOLUTION BELOW if both +VE/-VE. Works fine for +VE numbers
+        # N, left, right, count, sum = len(nums), 0, 0, 0, 0
+        # if N == 1:
+        #     return 1 if nums[0] == k else 0
+        # for i in range(N):
+        #     sum += nums[right]
+        #     count += 1 if nums[right] == k and right!= 0 else 0
+        #     print (left, right, sum, count)
+        #     if (sum) > k:
+        #         sum -= nums[left]
+        #         if left == 0 and right == 0 and nums[0] > k:
+        #             left = 1
+        #         right += 1
+        #     elif (sum) < k:
+        #         right += 1
+        #     else:
+        #         sum -= nums[left]
+        #         right += 1
+        #         left  += 1
+        #         count += 1
+        #     print (left, right, sum, count)
+        # return count
+    
+        # so better whenever you have to find subarray always go for prefix sum or segment tree
+        # as you have to think of lots of edge cases which is not possible to figure out
+        # although whenever you test try to forumate edge cases like above
+        # for example keep first elemetn as same, greater, lesser than k,
+        #             keep last element as same, greater, lesser than k
+        #             keep only 1 element, 0 element, 2 elements
+        #             keep negative numbers in first element
+        #             keep negative numbers in last element    
+        
+        # sum{subarray[L:R] = pref[R] - pref[L-1] if L > 0 else pref[R] - 0}
+        # Now we want pref[R] - pref[L-1] == k.
+        # since at R we know pref[R] so pref[L-1] = pref[R] - k
+        # so if we just count how many times pref[L-1] appeared befer then we get the answer
+        
+        # since we don't need to store pref[R] we can just have one variable to keep accumulated sum
+        #  similarly we can have need variable for pref[L-1]
+        
+        # with dictionary get()
+        # pref, need, ans, seen = 0, 0, 0, {0:1}
+        # for num in nums:
+        #     pref += num
+        #     need = pref - k   
+        #     ans += seen.get(need, 0)
+        #     seen[pref] = seen.get(pref, 0) + 1
+        # return ans
+    
+        #with dictionary without get() vanilla python
+        # pref, need, ans, seen = 0, 0, 0, {0:1}
+        # for num in nums:
+        #     pref += num
+        #     need = pref - k   
+        #     if need in seen:
+        #         ans += seen[need]
+        #     if pref in seen:
+        #         seen[pref] += 1
+        #     else:
+        #         seen[pref] = 1
+        # return ans
+        
+        # with collectsions.Counter
+        pref, need, ans, seen = 0, 0, 0, Counter()
+        seen[0] = 1
+        for num in nums:
+            pref += num
+            ans += seen[pref - k]
+            seen[pref] += 1
+        return ans
+            
+        

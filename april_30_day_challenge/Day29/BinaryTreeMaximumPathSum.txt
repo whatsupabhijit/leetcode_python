@@ -1,0 +1,23 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxPathSum(self, root: TreeNode) -> int:
+        self.best = -float("inf")
+        def depth(node):
+            if not node: return 0
+            l = max(depth(node.left), 0) # [2, -1] think of this test case
+            r = max(depth(node.right), 0)
+            self.best = max(self.best, l + r + node.val)
+            return max(l, r) + node.val
+
+        depth(root)
+        return self.best       
+    
+# Same as diameter of binary tree. Only thing is if left/right subtree is giving negative then we won't take that.
+# 1. if the current node we are at in the "depth" function is the "pivot" point of the longest path, then it will update the best accordingly.
+# 2. But if it's not the 'pivot', then the largest path from the current node to either it's left or right side could be part of the largest path.
+# Case 2 doesn't mean that the max path from the current node to either left or right side is actually in the maximum path, but it could be, which is why we have to return it to the previous function call.

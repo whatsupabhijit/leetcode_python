@@ -1,0 +1,16 @@
+class Solution:
+    def findMaxLength(self, nums: List[int]) -> int:
+        
+        accum = best = 0
+        first_occurence =  {0: -1}
+        
+        for i, num in enumerate(nums):
+            accum += -1 if num == 0 else 1
+            if accum in first_occurence:
+                best = max(best, i - first_occurence[accum])
+            else:
+                first_occurence[accum] = i   
+            # print ("i:", i , " accum:", accum, " best:", best, " h:", h)
+        return best
+        
+        # when ever you see subarray think of prefix array or prefix sum.

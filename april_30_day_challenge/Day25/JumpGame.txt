@@ -1,0 +1,16 @@
+class Solution:
+    
+    def canJump(self, nums: List[int]) -> bool:  
+        
+        
+        # You can make a graph from this problem and solve by BFS/DFS/SCCC etc.
+        # but that will be O(V + E). but E will be at max O(N^2)
+        
+        # below is O(N) solution. Here we will check if at any index we can't reach that means 
+        # we can't reach till the end.
+        farthest = 0
+        for i, num in enumerate(nums):
+            if farthest < i:
+                return False    
+            farthest = max(farthest, i + num)
+        return True

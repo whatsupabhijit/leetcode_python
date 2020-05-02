@@ -1,0 +1,27 @@
+class Solution:
+    def search(self, a: List[int], target: int) -> int:
+        
+        l, r, m = 0, len(a) - 1, 0
+        
+        while(l <= r):
+            
+            # avoid overflow and return if found
+            m = l + (r - l) // 2
+            if a[m] == target:
+                return m
+            
+            # eith left is less than middle, or greater or equal(duplicate). Handle each.
+            if a[l] < a[m]:
+                if a[l] <= target < a[m]:
+                    r = m - 1
+                else:
+                    l = m + 1
+            elif a[l] > a[m]:
+                if a[m] < target <= a[r]:
+                    l = m + 1
+                else:
+                    r = m - 1
+            else:
+                l += 1
+            
+        return -1    

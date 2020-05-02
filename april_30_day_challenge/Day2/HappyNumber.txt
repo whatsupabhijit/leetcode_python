@@ -1,0 +1,23 @@
+class Solution:
+    def isHappy(self, n: int) -> bool:
+        seen = {}
+        count = 0
+        while (count <= 20):
+            n_bkp = n
+            if n in seen.keys():
+                n = seen[n]
+                if n == 1:
+                    return True
+            else:
+                sum = 0
+                while (n):
+                    digit = n % 10
+                    digitsq = digit * digit
+                    sum += digitsq
+                    n //= 10
+                n = sum
+                seen[n_bkp] = n
+            print (n)
+            count += 1
+        
+        return n == 1
